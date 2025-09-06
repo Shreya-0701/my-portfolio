@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import '../assets/styles/Contact.scss';
-// import emailjs from '@emailjs/browser';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import TextField from '@mui/material/TextField';
+import emailjs from '@emailjs/browser';
 
 function Contact() {
   const [name, setName] = useState<string>('');
@@ -25,30 +25,34 @@ function Contact() {
     setEmailError(email === '');
     setMessageError(message === '');
 
-    // Log form data to console
-    console.log('Form Data:');
-    console.log('Name:', name);
-    console.log('Email/Phone:', email);
-    console.log('Message:', message);
+    if (!name || !email || !message) return;
 
-    // Uncomment below to enable EmailJS
-    /*
-    if (name && email && message) {
-      const templateParams = { name, email, message };
+    const templateParams = {
+      name: name,
+      email,
+      message,
+    };
 
-      emailjs.send('service_id', 'template_id', templateParams, 'api_key')
-        .then((response) => {
+    emailjs
+      .send(
+        process.env.REACT_APP_EMAILJS_SERVICE_ID!,
+        process.env.REACT_APP_EMAILJS_TEMPLATE_ID!,
+        templateParams,
+        process.env.REACT_APP_EMAILJS_PUBLIC_KEY!
+      )
+      .then(
+        (response) => {
           console.log('SUCCESS!', response.status, response.text);
-        }, (error) => {
-          console.log('FAILED...', error);
-        });
-
-      // Clear form after sending
-      setName('');
-      setEmail('');
-      setMessage('');
-    }
-    */
+          alert('Message sent successfully!');
+          setName('');
+          setEmail('');
+          setMessage('');
+        },
+        (error) => {
+          console.error('FAILED...', error);
+          alert('Message failed to send. Please try again.');
+        }
+      );
   };
 
   return (
@@ -56,7 +60,10 @@ function Contact() {
       <div className="items-container">
         <div className="contact_wrapper">
           <h1>Let’s Connect</h1>
-          <p>Whether it’s a new project, a question, or just to say hi, I’d love to hear from you.</p>
+          <p>
+            Whether it’s a new project, a question, or just to say hi, I’d love
+            to hear from you.
+          </p>
 
           <Box
             ref={form}
@@ -75,7 +82,7 @@ function Contact() {
                 error={nameError}
                 helperText={nameError ? 'Please enter your name' : ''}
                 InputProps={{
-                  style: { color: '#000' }, // typed text black
+                  style: { color: '#000' },
                 }}
                 InputLabelProps={{ style: { color: '#555' } }}
               />
@@ -86,9 +93,11 @@ function Contact() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 error={emailError}
-                helperText={emailError ? 'Please enter your email or phone number' : ''}
+                helperText={
+                  emailError ? 'Please enter your email or phone number' : ''
+                }
                 InputProps={{
-                  style: { color: '#000' }, // typed text black
+                  style: { color: '#000' },
                 }}
                 InputLabelProps={{ style: { color: '#555' } }}
               />
@@ -105,8 +114,8 @@ function Contact() {
               error={messageError}
               helperText={messageError ? 'Please enter the message' : ''}
               InputProps={{
-                style: { color: '#000' }, // single-line text
-                sx: { '& textarea': { color: '#000' } }, // multiline text
+                style: { color: '#000' },
+                sx: { '& textarea': { color: '#000' } },
               }}
               InputLabelProps={{ style: { color: '#555' } }}
             />
