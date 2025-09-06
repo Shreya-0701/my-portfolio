@@ -7,7 +7,7 @@
 This is my personal developer portfolio built using React + TypeScript.  
 It highlights my projects, skills, and professional background
 
-View the [Demo]().
+View the [Demo](https://shreya-0701.github.io/my-portfolio/).
 
 
 ![screenshot](./src/assets//images/firstpage.png)
