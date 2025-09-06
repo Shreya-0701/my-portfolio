@@ -17,15 +17,32 @@
     background-color: #5000ca;
     color: white;
   }
-
-  fieldset {
-    background-color: white;
-  }
 }
 
-label {
+/* Keep text black inside all input/textarea and background white */
+.contact-form input,
+.contact-form textarea {
+  color: #000 !important;           // typed text black
+  background-color: #fff !important; // white background
+  border: 1px solid #ccc !important; // light gray border
+  border-radius: 5px;               // optional rounded corners
+  padding: 10px;                    // optional spacing inside box
+}
+
+/* Labels color */
+.contact-form label {
+  color: #555 !important;
   font-size: 1.2rem;
   font-family: 'DomaineDispNar-Medium', sans-serif;
+}
+
+/* On focus: keep border visible and slightly darker */
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border: 1px solid #000 !important;
+  background-color: #fff !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .form-flex {
